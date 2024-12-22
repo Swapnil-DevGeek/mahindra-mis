@@ -24,6 +24,7 @@ if (process.env.NODE_ENV === 'development') {
 app.use('/api/auth', require('./routes/authRoutes'));
 app.use('/api/projects', require('./routes/projectRoutes'));
 app.use('/api/activities',require('./routes/activityRoutes'));
-
+app.use('/api/parts', require('./routes/partRoutes'));
+app.use('/api/part-activities', require('./routes/partActivityRoutes'));
 
 module.exports = app;

@@ -71,7 +71,7 @@ const updateActivity = asyncHandler(async (req, res) => {
     }
 
     if(activity){
-        activity.activity_name = req.body.activity_name || activity_name.activity_name;
+        activity.activity_name = req.body.activity_name || activity.activity_name;
         const updatedActivity = await activity.save();
         return res.json({
             _id: updatedActivity._id,
