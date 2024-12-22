@@ -86,8 +86,21 @@ const getUserProfile = asyncHandler(async (req, res) => {
     return res.status(200).json(user);
 });
 
+// @desc    Get all users
+// @route   GET /api/auth/users
+// @access  Private(L3)
+    const getAllUsers = asyncHandler(async (req, res) => {
+        if (req.user.designation!== 'L3') {
+            return res.status(403).json({ message: 'Unauthorized to view users' });
+        }
+
+        const users = await User.find({});
+        return res.status(200).json(users);
+    });
+
 module.exports = {
     registerUser,
     loginUser,
     getUserProfile,
+    getAllUsers
 };
