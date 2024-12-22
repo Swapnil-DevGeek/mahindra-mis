@@ -20,13 +20,8 @@ if (process.env.NODE_ENV === 'development') {
     app.use(morgan('dev'));
 }
 
-// // Routes
-// app.use('/api/users', require('./routes/userRoutes'));
-// app.use('/api/projects', require('./routes/projectRoutes'));
-// app.use('/api/parts', require('./routes/partRoutes'));
-// app.use('/api/activities', require('./routes/activityRoutes'));
+// Routes
+app.use('/api/auth', require('./routes/authRoutes'));
 
-// Error Handling Middleware
-// app.use(require('./middlewares/errorMiddleware'));
 
 module.exports = app;
