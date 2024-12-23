@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
+import { useAuth } from '@/context/AuthContext';
 import { Card, CardContent, CardHeader, CardTitle, CardFooter } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
@@ -9,6 +10,7 @@ import { Alert, AlertDescription } from '@/components/ui/alert';
 import { Loader2 } from 'lucide-react';
 
 const Login = () => {
+  const { login } = useAuth(); // Access the login method from the AuthContext
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
@@ -32,11 +34,16 @@ const Login = () => {
       const data = await response.json();
 
       if (!response.ok) {
-        throw new Error(data.message || 'Something went wrong');
+        throw new Error(data.message || 'Invalid email or password');
       }
 
-      localStorage.setItem('token', data.token);
-      router.push('/dashboard');
+      // Use login method from AuthContext
+      login({
+        token: data.token,
+        name: data.name,
+        email: data.email,
+        designation: data.designation,
+      });
     } catch (err) {
       setError(err.message);
     } finally {
@@ -72,6 +79,7 @@ const Login = () => {
                 required
                 placeholder="name@example.com"
                 className="w-full"
+                disabled={loading}
               />
             </div>
             <div className="space-y-2">
@@ -83,6 +91,7 @@ const Login = () => {
                   type="button"
                   className="text-sm font-medium text-blue-600 hover:text-blue-500"
                   onClick={() => router.push('/forgot-password')}
+                  disabled={loading}
                 >
                   Forgot password?
                 </button>
@@ -95,6 +104,7 @@ const Login = () => {
                 required
                 className="w-full"
                 placeholder="********"
+                disabled={loading}
               />
             </div>
             <Button
@@ -128,6 +138,7 @@ const Login = () => {
               type="button"
               className="font-medium text-blue-600 hover:text-blue-500"
               onClick={() => router.push('/register')}
+              disabled={loading}
             >
               Create one
             </button>
